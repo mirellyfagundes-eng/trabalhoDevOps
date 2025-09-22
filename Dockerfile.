@@ -1,0 +1,22 @@
+# Use uma imagem base oficial do Python
+FROM python:3.9-slim
+
+# Define a variável de ambiente para que o Flask saiba onde encontrar a aplicação
+ENV FLASK_APP=Flask-app.py
+
+# Define o diretório de trabalho no container
+WORKDIR /app
+
+# Copia o arquivo de requisitos e instala as dependências
+# (Assumindo que você tem um arquivo requirements.txt)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia o restante do código da sua aplicação para o diretório de trabalho
+COPY . .
+
+# Expõe a porta que o Flask vai usar (a porta 5000 é a padrão)
+EXPOSE 5000
+
+# Comando para rodar a aplicação quando o container iniciar
+CMD ["flask", "run", "--host=0.0.0.0"]
